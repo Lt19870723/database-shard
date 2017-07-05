@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nchu.tech.database.mapper.CityMapper">
+    <resultMap id="cityResult" type="com.nchu.tech.database.model.City">
+        <id property="id" column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="cityName" column="city_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="provinceId" column="province_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="createDate" column="create_date" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="modifiedDate" column="modified_date" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="selectAll">
+        city.id,
+        city.city_name
+        city.code
+        city.province_id
+        city.create_date
+        city.modified_date
+    </sql>
+
+    <sql id="tableName">
+        sm_city AS city
+    </sql>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="cityResult">
+      SELECT
+        <include refid="selectAll"/>
+      FROM
+        <include refid="tableName"/>
+      WHERE id =#{id};
+    </select>
+
+    <insert id="save" parameterType="com.nchu.tech.database.model.City" keyProperty="">
+      INSERT INTO `sm_city` (
+            `id`,
+            `city_name`,
+            `code`,
+            `province_id`,
+            `create_date`,
+            `modified_date`
+      )
+      VALUES (
+           #{id,jdbcType=VARCHAR},
+           #{cityName,jdbcType=VARCHAR},
+           #{code,jdbcType=VARCHAR},
+           #{provinceId,jdbcType=VARCHAR},
+           #{createDate,jdbcType=TIMESTAMP},
+           #{modifiedDate,jdbcType=TIMESTAMP}
+      );
+    </insert>
+
+</mapper>
